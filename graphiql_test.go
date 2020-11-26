@@ -7,7 +7,7 @@ import (
 	"testing"
 
 	"github.com/graphql-go/graphql/testutil"
-	"github.com/graphql-go/handler"
+	handler "github.com/sensiblecodeio/graphql-go-handler"
 )
 
 func TestRenderGraphiQL(t *testing.T) {

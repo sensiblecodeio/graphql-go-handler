@@ -11,6 +11,7 @@ import (
 // graphiqlData is the page data structure of the rendered GraphiQL page
 type graphiqlData struct {
 	GraphiqlVersion string
+	ReactVersion    string
 	QueryString     string
 	VariablesString string
 	OperationName   string
@@ -52,6 +53,7 @@ func renderGraphiQL(w http.ResponseWriter, params graphql.Params) {
 
 	d := graphiqlData{
 		GraphiqlVersion: graphiqlVersion,
+		ReactVersion:    reactVersion,
 		QueryString:     params.RequestString,
 		ResultString:    resString,
 		VariablesString: varsString,
@@ -65,8 +67,12 @@ func renderGraphiQL(w http.ResponseWriter, params graphql.Params) {
 	return
 }
 
-// graphiqlVersion is the current version of GraphiQL
-const graphiqlVersion = "0.11.11"
+const (
+	// graphiqlVersion is the current version of GraphiQL
+	graphiqlVersion = "1.0.6"
+	// reactVersion is the current version of React
+	reactVersion = "16"
+)
 
 // tmpl is the page template to render GraphiQL
 const graphiqlTemplate = `
@@ -97,12 +103,11 @@ add "&raw" to the end of the URL within a browser.
       height: 100vh;
     }
   </style>
-  <link href="//cdn.jsdelivr.net/npm/graphiql@{{ .GraphiqlVersion }}/graphiql.css" rel="stylesheet" />
-  <script src="//cdn.jsdelivr.net/es6-promise/4.0.5/es6-promise.auto.min.js"></script>
-  <script src="//cdn.jsdelivr.net/fetch/0.9.0/fetch.min.js"></script>
-  <script src="//cdn.jsdelivr.net/react/15.4.2/react.min.js"></script>
-  <script src="//cdn.jsdelivr.net/react/15.4.2/react-dom.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/graphiql@{{ .GraphiqlVersion }}/graphiql.min.js"></script>
+  <link href="/static/graphiql@{{ .GraphiqlVersion }}/graphiql.min.css" rel="stylesheet" />
+  <script src="/static/react@{{ .ReactVersion }}/umd/react.production.min.js"></script>
+  <script src="/static/react-dom@{{ .ReactVersion }}/umd/react-dom.production.min.js"></script>
+  <script src="/static/graphiql@{{ .GraphiqlVersion }}/graphiql.min.js"></script>
+  <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
 </head>
 <body>
   <div id="graphiql">Loading...</div>
